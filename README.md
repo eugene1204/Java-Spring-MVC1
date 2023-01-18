@@ -25,15 +25,14 @@
 
 - @WebServlet 서블릿 애노테이션 
   - name: 서블릿 이름 
-  - urlPatterns: URL 매핑
+  - urlPatterns: URL 매핑git
 
 HTTP 요청을 통해 매핑된 URL이 호출되면 서블릿 컨테이너는 다음 메서드를 실행한다.
 protected void service(HttpServletRequest request, HttpServletResponse response)
 
 - 웹 브라우저 실행
   - http://localhost:8080/hello?username=world
-  - 결과: hello world 
-
+  - 결과: hello world
 - 콘솔 실행결과
 ```
 ```

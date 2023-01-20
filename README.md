@@ -83,11 +83,19 @@
 ![](src/main/resources/picture/img_10.png)
 
 ### 서블릿 - 특징 
+```
+@WebServlet(name = "helloServlet", urlPatterns = "/hello")
+public class HelloServlet extends HttpServlet {
+@Override
+protected void service(HttpServletRequest request, HttpServletResponse response){
+//애플리케이션 로직
+} }
+```
 - urlPatterns(/hello)의 URL이 호출되면 서블릿 코드가 실행
 - HTTP 요청 정보를 편리하게 사용할 수 있는 HttpServletRequest 
 - HTTP 응답 정보를 편리하게 제공할 수 있는 HttpServletResponse 
 - 개발자는 HTTP 스펙을 매우 편리하게 사용
-
+![](src/main/resources/picture/img_12.png)
 ### 서블릿 - HTTP 요청, 응답 흐름
 - HTTP 요청 시 
   - WAS는  Request, Response 객체를 새로 만들어서 서블릿 객체 호출
@@ -96,7 +104,7 @@
   - WAS는 Response 객체에 담겨있는 내용으로 HTTP 응답 정보를 생성
 
 ### 서블릿 컨테이너
-
+![](src/main/resources/picture/img_11.png)
 ### 서블릿 - 서블릿 컨테이너
 - 톰캣처럼 서블릿을 지원하는 WAS를 서블릿 컨테이너라고 함
 - 서블릿 컨테이너는 서블릿 객체를 생성, 초기화, 호출, 종료하는 생명주기 관리 
@@ -111,15 +119,32 @@
 
 
 ## 동시요청 - 멀티 쓰레드 
-### 단일 요청 - 쓰레드 하나 사용 
-요청오면 연결 - 쓰레드 할당 -> 끝나면 쉬어 
+![](src/main/resources/picture/img_13.png)
+![](src/main/resources/picture/img_14.png)
+![](src/main/resources/picture/img_15.png)
 
+### 쓰레드 
+- 애플리케이션 코드를 하나하나 순차적으로 실행하는 것은 쓰레드 
+- 자바 메인 메서드를 처음 실행하면 main이라는 이름의 쓰레드가 실행 
+- 쓰레드가 없다면 자바 애플리케이션 실행이 불가능
+- 쓰레드는 한번에 하나의 코드 라인만 수행
+- 동시 처리가 필요하면 쓰레드를 추가로 생성
+
+### 단일 요청 - 쓰레드 하나 사용 
+요청오면 연결 - 쓰레드 할당 -> 끝나면 쉬어
+![](src/main/resources/picture/img_16.png)
+![](src/main/resources/picture/img_17.png)
+![](src/main/resources/picture/img_18.png)
+![](src/main/resources/picture/img_19.png)
 ### 다중요청 
 쓰레드가 1개이면 요청1이 연결해서 쓰레드를 사용중 처리지연되고 있다.
 요청2는 쓰레드를 할당 받을 수 없게 된다. 
-요청1, 요청 2 둘다 죽는다. 
-
+요청1, 요청 2 둘다 죽는다.
+![](src/main/resources/picture/img_20.png)
+![](src/main/resources/picture/img_21.png)
+![](src/main/resources/picture/img_22.png)
 ### 요청 마다 쓰레드 생성
+![](src/main/resources/picture/img_23.png)
 - 장단점 
 - 장점 
   - 동시 요청을 처리할 수 있다. 
@@ -135,7 +160,8 @@
 ### 쓰레드 풀
 요청1, 요청2가 오면 쓰레드풀에서 사용한다. -> 쓰레드 쓰고나면 쓰레드 풀에 반납한다. 
 장점 : 요청이 쓰레드 풀보다 많은 요청이 오면 쓰레드 대기, 거절 가능할 수 있다.
-
+![](src/main/resources/picture/img_24.png)
+![](src/main/resources/picture/img_25.png)
 ### 쓰레드 풀 - 요청 마다 쓰레드 생성의 단점 보완
 - 특징 
   - 필요한 쓰레드를 쓰레드 풀에 보관하고 관리한다. 
@@ -157,8 +183,7 @@
   - 클라우드가 아니면 평상시에.. 잘해야한다.
 
 ### 쓰레드 풀 - 너무 낮게 설정 
-
-### 쓰레드 풀 - 너무 높게 설정 
+![](src/main/resources/picture/img_26.png)
 
 ### 쓰레드 풀 - 쓰레드 풀의 적정 숫자 
 - 적정숫자 찾는방법? 
@@ -167,7 +192,7 @@
   - 최대한 실제 서비스와 유사하게 성능 테스트 시도
   - 툴 : 아파치 ab, 제이미터, nGrinder
 
-### WAS의 멀티 쓰레드 지원 
+### WAS의 멀티 쓰레드 지원 - 핵심
 - 멀티 쓰레드에 대한 부분은 WAS가 처리 
 - ***개발자가 멀티 쓰레드 관련 코드를 신경쓰지 않아도됨***
 - 개발자는 마치 ***싱글 쓰레드 프로그래밍을 하듯이 편리하게 소스 코드를 개발***
@@ -175,17 +200,22 @@
 
 ## HTML, HTTP API, CSR, SSR
 ### HTML 페이지 - 정적 페이지
+- 고정된 HTML 파일, CSS, JS, 이미지, 영상 등을 제공 
+- 주로 웹 브라우저
+![](src/main/resources/picture/img_27.png)
 ### HTML 페이지 - 동적 페이지
 - 동적으로 필요한 HTML 파일을 생성해서 전달 
-- 웹 브라우저 : HTML 해석 
-
+- 웹 브라우저 : HTML 해석
+![](src/main/resources/picture/img_28.png)
 ### HTTP API
 - HTML이 아니라 데이터를 전달 
 - 주로 JSON 형식 사용 
-- 다양한 시스템에서 호출 
+- 다양한 시스템에서 호출
+![](src/main/resources/picture/img_29.png)
+
 - 데이터만 주고 받음, UI 화면이 필요하면, 클라이언트가 별도 처리 
 - 앱, 웹 클라이언트 서버 to 서버
-
+![](src/main/resources/picture/img_30.png)
 > ex) 데이터만 주세요 UI는 알아서 할게요 
 > ex) 와스 서버가 데이터를 주면 자바스크립트에서 동적으로 만들어서 뿌린다.
 > ex) 주문-결제 : 서버 to 서버 
@@ -210,11 +240,11 @@
   - React, Vue.js를 CSR + SSR 동시에 지원하는 웹 프레임워크도 있음
   - SSR을 사용하더라도, 자바스크립트를 사용해서 화면 일부를 동적으로 변경 가능
 ### SSR - 서버 사이드 렌더링 
-- 서버에서 최종 HTML을 생성해서 클라이언트에 전달 
-
+- 서버에서 최종 HTML을 생성해서 클라이언트에 전달
+![](src/main/resources/picture/img_31.png)
 
 ### CSR - 클라이언트 랜더링
-- 
+![](src/main/resources/picture/img_32.png)
 
 ### 어디까지 알아야 하나요? 
 ***백엔드 개발자 입장에서 UI 기술***
@@ -325,6 +355,7 @@ logging.level.org.apache.coyote.http11=debug
 - 이번 장에서 학습할 내용은 다음 ```basic.html``` 이다. 
 - ```main/webapp/basic.html```
 ```
+
 ```
 
 ## HttpServletRequest - 개요
